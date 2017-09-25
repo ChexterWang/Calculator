@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn6, btn7, btn8, btn9, btnAdd, btnSub;
     private Button btnTime, btnDiv, btnPt, btnEqu;
     private TextView disply;
-    double res = 0, res1 = 0, res2 = 0, cnt = 0;
+    double res = 0, res1 = 0, res2 = 0, cnt = 0, PtCnt = 0;
     //res為暫時儲存, res1為最終結果, res2存放運算前的數字, cnt為確定equ是否被點
     String str = "";//用以處理運算的前一個運算(doPre(str);)
 
@@ -69,68 +69,58 @@ public class MainActivity extends AppCompatActivity {
         btnSub.setOnClickListener(btnSubClicked);
         btnTime.setOnClickListener(btnTimeClicked);
         btnDiv.setOnClickListener(btnDivClicked);
-        //btnPt.setOnClickListener(btnPtClicked);
+        btnPt.setOnClickListener(btnPtClicked);
         btnEqu.setOnClickListener(btnEquClicked);
     }
 
     private View.OnClickListener btn0Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10;
-            disply.setText(String.valueOf(res));
+            doCal(i, 0, str);
         }
     };
     private View.OnClickListener btn1Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 1;
-            disply.setText(String.valueOf(res));
+            doCal(i, 1, str);
         }
     };
     private View.OnClickListener btn2Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 2;
-            disply.setText(String.valueOf(res));
+            doCal(i, 2, str);
         }
     };
     private View.OnClickListener btn3Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 3;
-            disply.setText(String.valueOf(res));
+            doCal(i, 3, str);
         }
     };
     private View.OnClickListener btn4Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 4;
-            disply.setText(String.valueOf(res));
+            doCal(i, 4, str);
         }
     };
     private View.OnClickListener btn5Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 5;
-            disply.setText(String.valueOf(res));
+            doCal(i, 5, str);
         }
     };
     private View.OnClickListener btn6Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 6;
-            disply.setText(String.valueOf(res));
+            doCal(i, 6, str);
         }
     };
     private View.OnClickListener btn7Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 7;
-            disply.setText(String.valueOf(res));
+            doCal(i, 7, str);
         }
     };
     private View.OnClickListener btn8Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 8;
-            disply.setText(String.valueOf(res));
+            doCal(i, 8, str);
         }
     };
     private View.OnClickListener btn9Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            res = res*10 + 9;
-            disply.setText(String.valueOf(res));
+            doCal(i, 9, str);
         }
     };
     private View.OnClickListener btnAddClicked = new View.OnClickListener(){
@@ -157,12 +147,11 @@ public class MainActivity extends AppCompatActivity {
             str = "D";
         }
     };
-    /** private View.OnClickListener btnPtClicked = new View.OnClickListener(){
-            public void onClick(View v){
-
-            }
-       };
-    */
+    private View.OnClickListener btnPtClicked = new View.OnClickListener(){
+        public void onClick(View v){
+            PtCnt = 1;
+        }
+    };
     private View.OnClickListener btnEquClicked = new View.OnClickListener(){
         public void onClick(View v){
             doPre(str);
@@ -195,8 +184,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else{
-                disply.setText("Inappropriate Movement");
+                disply.setText("Invalid Movement");
             }
+        }
+    }
+    public void doCal(int i, int n, String str){
+        if(i < 1 && str == "E"){
+            res = res + n*Math.pow(0.1, i);
+            disply.setText(String.valueOf(res));
+        }
+        else if(i < 1 && str != "E"){
+            res = res*10 + n;   
+            disply.setText(String.valueOf(res));
+        }
+        else if(i == 1){
+            disply.setText("Invalid Movement");
         }
     }
 }

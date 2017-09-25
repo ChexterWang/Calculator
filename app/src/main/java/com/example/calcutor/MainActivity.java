@@ -7,10 +7,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
-        bug:1.小數點還沒做，小數點點兩次也還沒做。
-            2.按兩次++會做兩次。
-            3.輸入數字不會先顯示。
-            4.還沒處理不當操作(/0)。
+ bug:1.小數點還沒做，小數點點兩次也還沒做。
+ 2.按兩次++會做兩次。
+ 3.輸入數字不會先顯示。
+ 4.還沒處理不當操作(/0)。
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -19,9 +19,10 @@ public class MainActivity extends AppCompatActivity {
     private Button btn6, btn7, btn8, btn9, btnAdd, btnSub;
     private Button btnTime, btnDiv, btnPt, btnEqu;
     private TextView disply;
-    double res = 0, res1 = 0, res2 = 0, cnt = 0, PtCnt = 0;
+    double res = 0, res1 = 0, res2 = 0;
+    int cnt = 0, PtCnt = 0;
     //res為暫時儲存, res1為最終結果, res2存放運算前的數字, cnt為確定equ是否被點
-    String str = "";//用以處理運算的前一個運算(doPre(str);)
+    String str = "", PtStr = "";//用以處理運算的前一個運算(doPre(str);)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,52 +76,52 @@ public class MainActivity extends AppCompatActivity {
 
     private View.OnClickListener btn0Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 0, str);
+            doCal(PtCnt, 0, PtStr);
         }
     };
     private View.OnClickListener btn1Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 1, str);
+            doCal(PtCnt, 1, PtStr);
         }
     };
     private View.OnClickListener btn2Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 2, str);
+            doCal(PtCnt, 2, PtStr);
         }
     };
     private View.OnClickListener btn3Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 3, str);
+            doCal(PtCnt, 3, PtStr);
         }
     };
     private View.OnClickListener btn4Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 4, str);
+            doCal(PtCnt, 4, PtStr);
         }
     };
     private View.OnClickListener btn5Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 5, str);
+            doCal(PtCnt, 5, PtStr);
         }
     };
     private View.OnClickListener btn6Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 6, str);
+            doCal(PtCnt, 6, PtStr);
         }
     };
     private View.OnClickListener btn7Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 7, str);
+            doCal(PtCnt, 7, PtStr);
         }
     };
     private View.OnClickListener btn8Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 8, str);
+            doCal(PtCnt, 8, PtStr);
         }
     };
     private View.OnClickListener btn9Clicked = new View.OnClickListener(){
         public void onClick(View v){
-            doCal(i, 9, str);
+            doCal(PtCnt, 9, PtStr);
         }
     };
     private View.OnClickListener btnAddClicked = new View.OnClickListener(){
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener btnPtClicked = new View.OnClickListener(){
         public void onClick(View v){
             PtCnt = 1;
+            PtStr = "E";
         }
     };
     private View.OnClickListener btnEquClicked = new View.OnClickListener(){
@@ -169,17 +171,17 @@ public class MainActivity extends AppCompatActivity {
             res2 = res;
             disply.setText(String.valueOf(res2));
             res = 0;
-            if (res2 != 0 || str != "D") {
-                if (str == "A") {
+            if (res2 != 0 || !str.equals("D")) {
+                if (str.equals("A")) {
                     res1 = res1 + res2;
                 }
-                else if (str == "B") {
+                else if (str.equals("B")) {
                     res1 = res1 - res2;
                 }
-                else if (str == "C") {
+                else if (str.equals("C")) {
                     res1 = res1 * res2;
                 }
-                else if (str == "D") {
+                else if (str.equals("D")) {
                     res1 = res1 / res2;
                 }
             }
@@ -189,13 +191,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void doCal(int i, int n, String str){
-        if(i < 1 && str == "E"){
+        if(i < 1 && !str.equals("E")){
             res = res + n*Math.pow(0.1, i);
-            disply.setText(String.valueOf(res));
+            disply.setText(String.valueOf((int)res)+"."+String.valueOf(res - (int)res));
         }
-        else if(i < 1 && str != "E"){
-            res = res*10 + n;   
-            disply.setText(String.valueOf(res));
+        else if(i < 1 && str.equals("E")){
+            res = res*10 + n;
+            disply.setText(String.valueOf((int)res)+"."+String.valueOf(res - (int)res));
         }
         else if(i == 1){
             disply.setText("Invalid Movement");

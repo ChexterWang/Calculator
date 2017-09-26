@@ -7,20 +7,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 /**
- * bug: 1.原始狀態時，會顯示兩個點
- *      2.按0自動+1
- *      3.原始狀態時，按其他數字自動上加
- *      4.按過點一次後，數字才會疊上去
+ * bug: 1.小數點後按3，出現2999999。
+ *      2.操作後不顯示現在數字。
+ *      3.
+ *      4.
  */
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btn0, btn1, btn2, btn3, btn4, btn5;
     private Button btn6, btn7, btn8, btn9, btnAdd, btnSub;
-    private Button btnTime, btnDiv, btnPt, btnEqu;
+    private Button btnTime, btnDiv, btnPt, btnEqu, btnC;
     private TextView disply;
     private double res = 0, res1 = 0, res2 = 0, cnt = 0;
-    private int PtCnt = 0;
+    private int PtCnt = 0, PtNumCnt = 1;
     private String str = "";
 
     @Override
@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         btnDiv = (Button) findViewById(R.id.btnDiv);
         btnPt = (Button) findViewById(R.id.btnPt);
         btnEqu = (Button) findViewById(R.id.btnEqu);
+        btnC = (Button) findViewById(R.id.btnC);
         disply = (TextView) findViewById(R.id.disply);
-
 
         btn0.setOnClickListener(btn0Clicked);
         btn1.setOnClickListener(btn1Clicked);
@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
         btnDiv.setOnClickListener(btnDivClicked);
         btnPt.setOnClickListener(btnPtClicked);
         btnEqu.setOnClickListener(btnEquClicked);
-
+        btnC.setOnClickListener(btnCClicked);
     }
 
     private View.OnClickListener btn0Clicked = new View.OnClickListener() {
         public void onClick(View v) {
-            doCal(PtCnt, 1);
+            doCal(PtCnt, 0);
         }
     };
     private View.OnClickListener btn1Clicked = new View.OnClickListener() {
@@ -152,6 +152,18 @@ public class MainActivity extends AppCompatActivity {
             cnt++;
         }
     };
+    private View.OnClickListener btnCClicked = new View.OnClickListener() {
+        public void onClick(View v) {
+            res = 0;
+            res1 = 0;
+            res2 = 0;
+            cnt = 0;
+            PtCnt = 0;
+            PtNumCnt = 1;
+            str = "";
+            disply.setText(String.valueOf(0));
+        }
+    };
 
     public void doPre(String str) {
         if (cnt == 0) {
@@ -190,12 +202,13 @@ public class MainActivity extends AppCompatActivity {
         if (cnt == 0) {
             switch (i) {
                 case (0):
-                    res = res + n * Math.pow(0.1, i);
-                    disply.setText(String.valueOf((int) res) + "." + String.valueOf(res - (int) res));
+                    res = res * 10 + n;
+                    disply.setText(String.valueOf(res));
                     break;
                 case (1):
-                    res = res * 10 + n;
-                    disply.setText(String.valueOf((int) res) + "." + String.valueOf(res - (int) res));
+                    res = res + n * Math.pow(0.1, PtNumCnt);
+                    disply.setText(String.valueOf(res));
+                    PtNumCnt++;
                     break;
                 case (2):
                     disply.setText(getText(R.string.imprMove));

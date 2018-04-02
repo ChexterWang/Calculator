@@ -6,11 +6,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+
+import static android.R.attr.value;
+
 /**
  * bug: 1.小數點後按3，出現2999999。
  *      2.操作後不顯示現在數字。
- *      3.
- *      4.
+ *      3.0.9 * 22 = error。Big is not that big.
+ *      4.第二個數字還不能打小數點。
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -19,7 +23,10 @@ public class MainActivity extends AppCompatActivity {
     private Button btn6, btn7, btn8, btn9, btnAdd, btnSub;
     private Button btnTime, btnDiv, btnPt, btnEqu, btnC;
     private TextView disply;
-    private double res = 0, res1 = 0, res2 = 0, cnt = 0;
+    private BigDecimal res = new BigDecimal("0");
+    private BigDecimal res1 = new BigDecimal("0");
+    private BigDecimal res2 = new BigDecimal("0");
+    private BigDecimal cnt = new BigDecimal("0");
     private int PtCnt = 0, PtNumCnt = 1;
     private String str = "";
 
@@ -149,69 +156,81 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             doPre(str);
             disply.setText(String.valueOf(res1));
-            cnt++;
+            cnt = cnt.add(BigDecimal.ONE);
         }
     };
     private View.OnClickListener btnCClicked = new View.OnClickListener() {
         public void onClick(View v) {
-            res = 0;
-            res1 = 0;
-            res2 = 0;
-            cnt = 0;
+            res = BigDecimal.ZERO;
+            res1 = BigDecimal.ZERO;
+            res2 = BigDecimal.ZERO;
+            cnt = BigDecimal.ZERO;
             PtCnt = 0;
             PtNumCnt = 1;
             str = "";
             disply.setText(String.valueOf(0));
+            disply = (TextView) findViewById(R.id.disply);
         }
     };
 
     public void doPre(String str) {
-        if (cnt == 0) {
-            if (res1 == 0) {
+        if (cnt == BigDecimal.ZERO) {
+            if (res1 == BigDecimal.ZERO) {
                 res1 = res;
                 disply.setText(String.valueOf(res));
-                res = 0;
+                disply = (TextView) findViewById(R.id.disply);
+                res = BigDecimal.ZERO;
             } else {
                 res2 = res;
                 disply.setText(String.valueOf(res2));
-                res = 0;
-                if (res2 != 0 || !str.equals("D")) {
+                disply = (TextView) findViewById(R.id.disply);
+                res = BigDecimal.ZERO;
+                if (res2 != BigDecimal.ZERO || !str.equals("D")) {
                     switch (str) {
                         case ("A"):
-                            res1 = res1 + res2;
+                            res1 = res1.add(res2);
                             break;
                         case ("B"):
-                            res1 = res1 - res2;
+                            res1 = res1.subtract(res2);
                             break;
                         case ("C"):
-                            res1 = res1 * res2;
+                            res1 = res1.multiply(res2);
                             break;
                         case ("D"):
-                            res1 = res1 / res2;
+                            res1 = res1.divide(res2);
                             break;
                     }
                 }
                 else {
                     disply.setText(getText(R.string.imprMove));
+                    disply = (TextView) findViewById(R.id.disply);
                 }
             }
         }
     }
 
     public void doCal(int i, int n) {
-        if (cnt == 0) {
+        if (cnt == BigDecimal.ZERO) {
             switch (i) {
+                //看有幾個小數點
                 case (0):
-                    res = res * 10 + n;
+                    res = res.multiply(BigDecimal.TEN);
+                    res = res.add(BigDecimal.valueOf(n));
                     disply.setText(String.valueOf(res));
+                    disply = (TextView) findViewById(R.id.disply);
                     break;
                 case (1):
-                    res = res + n * Math.pow(0.1, PtNumCnt);
+                    //Math.pow(a,b) == a^b
+                    res = res.multiply(BigDecimal.valueOf(Math.pow(10, PtNumCnt)));
+                    res = res.add(BigDecimal.valueOf(n));
+                    res = res.divide(BigDecimal.valueOf(Math.pow(10, PtNumCnt)));
                     disply.setText(String.valueOf(res));
+                    disply = (TextView) findViewById(R.id.disply);
                     PtNumCnt++;
                     break;
                 case (2):
                     disply.setText(getText(R.string.imprMove));
+                    disply = (TextView) findViewById(R.id.disply);
                     break;
             }
         }

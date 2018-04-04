@@ -15,7 +15,8 @@ import static android.R.attr.value;
  *      2.操作後不顯示現在數字。
  *      3.0.9 * 22 = error。Big is not that big.
  *      4.第二個數字還不能打小數點。
- *      5./3=error。
+ *      5.x / 3 = error。
+ *      6.x.y / 3 the latter one (3) will become 0.03。
  */
 
 public class MainActivity extends AppCompatActivity {

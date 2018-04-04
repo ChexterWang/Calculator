@@ -11,12 +11,12 @@ import java.math.BigDecimal;
 import static android.R.attr.value;
 
 /**
- * bug: 1.小數點後按3，出現2999999。
+ * bug: 1.
  *      2.操作後不顯示現在數字。
- *      3.0.9 * 22 = error。Big is not that big.
+ *      3.0.9 * 10^-22 = error。Big is not that big.
  *      4.第二個數字還不能打小數點。
  *      5.x / 3 = error。
- *      6.x.y / 3 the latter one (3) will become 0.03。
+ *      6.x.y / 3 the latter one (3) will become 0.03。 <= Maybe be fixed after this committed. Need check.
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -129,24 +129,28 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             doPre(str);
             str = "A";
+            PtCnt = 0;
         }
     };
     private View.OnClickListener btnSubClicked = new View.OnClickListener() {
         public void onClick(View v) {
             doPre(str);
             str = "B";
+            PtCnt = 0;
         }
     };
     private View.OnClickListener btnTimeClicked = new View.OnClickListener() {
         public void onClick(View v) {
             doPre(str);
             str = "C";
+            PtCnt = 0;
         }
     };
     private View.OnClickListener btnDivClicked = new View.OnClickListener() {
         public void onClick(View v) {
             doPre(str);
             str = "D";
+            PtCnt = 0;
         }
     };
     private View.OnClickListener btnPtClicked = new View.OnClickListener() {

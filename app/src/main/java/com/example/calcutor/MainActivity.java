@@ -11,13 +11,9 @@ import java.math.BigDecimal;
 import static android.R.attr.value;
 
 /**
- * bug: 1.
- *      2.操作後不顯示現在數字。
- *      3.0.9 * 10^-22 = error。Big is not that big.
- *      4.第二個數字還不能打小數點。
- *      5.x / 3 = error。
- *      6.x.y / 3 the latter one (3) will become 0.03。
- *      7.(2&6)Maybe be fixed after this committed. Need check.
+ * bug: 1.操作後不顯示現在數字。
+ *      2.0.9 * 10^-22 = error。Big is not that big.
+ *      3.x / 3 = error。
  */
 
 public class MainActivity extends AppCompatActivity {

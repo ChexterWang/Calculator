@@ -11,9 +11,9 @@ import java.math.BigDecimal;
 import static android.R.attr.value;
 
 /**
- * bug: 1.操作後不顯示現在數字。
- *      2.0.9 * 10^-22 = error。Big is not that big.
- *      3.x / 3 = error。
+ * bug: 1.
+ *      2.操作後不顯示現在數字。
+ *      3.0.9 * 22 = error。Big is not that big.
  */
 
 public class MainActivity extends AppCompatActivity {
@@ -126,32 +126,32 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             doPre(str);
             str = "A";
-            PtCnt = 0;
             PtNumCnt = 1;
+            PtCnt = 0;
         }
     };
     private View.OnClickListener btnSubClicked = new View.OnClickListener() {
         public void onClick(View v) {
             doPre(str);
             str = "B";
-            PtCnt = 0;
             PtNumCnt = 1;
+            PtCnt = 0;
         }
     };
     private View.OnClickListener btnTimeClicked = new View.OnClickListener() {
         public void onClick(View v) {
             doPre(str);
             str = "C";
-            PtCnt = 0;
             PtNumCnt = 1;
+            PtCnt = 0;
         }
     };
     private View.OnClickListener btnDivClicked = new View.OnClickListener() {
         public void onClick(View v) {
             doPre(str);
             str = "D";
-            PtCnt = 0;
             PtNumCnt = 1;
+            PtCnt = 0;
         }
     };
     private View.OnClickListener btnPtClicked = new View.OnClickListener() {
@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
                             res1 = res1.multiply(res2);
                             break;
                         case ("D"):
-                            res1 = res1.divide(res2);
+                            res1 = res1.divide(res2, 10, BigDecimal.ROUND_HALF_UP);
                             break;
                     }
                 }
